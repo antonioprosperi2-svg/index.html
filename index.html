@@ -5,84 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLAYCOMBO - BeeEngine</title>
   <style>
+    /* Sfondo sfumato stabile */
     body {
-      background: linear-gradient(50deg, #4f42a7 5%, #00bfa5 80%) !important;
-      background-attachment: fixed !important;
+      background: linear-gradient(135deg, #1d1b3a, #00bfa5);
+      background-attachment: fixed;
       color: #ffffff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
+      padding: 20px 10px;
     }
 
-    .main-container {
-      max-width: 800px;
-      width: 100%;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 30px;
+    /* Scheda centrale pulita */
+    .box-principale {
+      max-width: 650px;
+      margin: 40px auto;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 25px;
       border-radius: 16px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      backdrop-filter: blur(4px);
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
-    .main-container img {
+    /* Logo gigante e proporzionato */
+    .box-principale img {
       width: 100%;
-      max-width: 500px;
       height: auto;
-      border-radius: 12px;
+      border-radius: 10px;
       margin-bottom: 20px;
     }
 
-    nav {
-      margin: 20px 0;
-    }
-
-    nav a {
-      color: #00e676;
-      text-decoration: none;
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin: 0 15px;
-      display: inline-block;
-      padding: 8px 16px;
-      border: 2px solid #00e676;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      background: #00e676;
-      color: #000;
-    }
-
+    /* Titolo e Testi ben visibili */
     h1 {
-      font-size: 2.2rem;
-      margin-top: 10px;
+      font-size: 26px;
+      margin: 15px 0 10px 0;
     }
 
     p {
-      font-size: 1.2rem;
-      line-height: 1.6;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #e0e0e0;
+    }
+
+    /* Pulsanti ben separati */
+    .menu-link {
+      margin: 25px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: block;
+      background: #00e676;
+      color: #000000;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .btn-alt {
+      background: transparent;
+      color: #00e676;
+      border: 2px solid #00e676;
     }
   </style>
 </head>
 <body>
 
-  <div class="main-container">
+  <div class="box-principale">
     <img src="https://github.com/user-attachments/assets/ec1709c8-401d-4c41-a44c-cf58bcbfeef3" alt="BeeEngine Logo">
-
-    <nav>
-      <a href="https://www.playcombo.it">Vai alla lista giochi</a>
-      <a href="https://antonioprosperi2-svg.github.io/Monster-Munch-Premium-Arcade-BeeEngine-/">Gioca a Monster Munch</a>
-    </nav>
 
     <h1>BeeEngine 2D Game Engine</h1>
     <p>Sviluppo strutture HTML per piattaforme giochi personalizzate in Vanilla JS pura ES6.</p>
+
+    <div class="menu-link">
+      <a class="btn" href="https://antonioprosperi2-svg.github.io/Monster-Munch-Premium-Arcade-BeeEngine-/">🎮 Gioca a Monster Munch</a>
+      <a class="btn btn-alt" href="https://www.playcombo.it">🌐 Vai alla lista giochi</a>
+    </div>
   </div>
 
 </body>
