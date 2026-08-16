@@ -5,31 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLAYCOMBO - BeeEngine</title>
   <style>
-    /* Incolla qui tutto il tuo CSS colorato con il gradiente e i cubi! */
     body {
       background: linear-gradient(50deg, #4f42a7 5%, #00bfa5 80%) !important;
-      color: white;
-      font-family: sans-serif;
+      background-attachment: fixed !important;
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
     }
-    a { color: #00e676; margin-right: 15px; font-weight: bold; }
+
+    .main-container {
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      backdrop-filter: blur(4px);
+    }
+
+    .main-container img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    nav {
+      margin: 20px 0;
+    }
+
+    nav a {
+      color: #00e676;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0 15px;
+      display: inline-block;
+      padding: 8px 16px;
+      border: 2px solid #00e676;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      background: #00e676;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-top: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Menu e Immagine -->
-  <p align="center">
-    <img src="https://github.com/user-attachments/assets/ec1709c8-401d-4c41-a44c-cf58bcbfeef3" alt="BeeEngine Logo" width="100%" style="max-width: 700px; border-radius: 10px;" />
-  </p>
+  <div class="main-container">
+    <img src="https://github.com/user-attachments/assets/ec1709c8-401d-4c41-a44c-cf58bcbfeef3" alt="BeeEngine Logo">
 
-  <nav>
-    <a href="https://www.playcombo.it">Vai alla lista giochi</a>
-    <a href="https://antonioprosperi2-svg.github.io/Monster-Munch-Premium-Arcade-BeeEngine-/">Gioca a Monster Munch</a>
-  </nav>
+    <nav>
+      <a href="https://www.playcombo.it">Vai alla lista giochi</a>
+      <a href="https://antonioprosperi2-svg.github.io/Monster-Munch-Premium-Arcade-BeeEngine-/">Gioca a Monster Munch</a>
+    </nav>
 
-  <h1>BeeEngine 2D Game Engine</h1>
-  <p>Sviluppo strutture HTML per piattaforme giochi personalizzate.</p>
+    <h1>BeeEngine 2D Game Engine</h1>
+    <p>Sviluppo strutture HTML per piattaforme giochi personalizzate in Vanilla JS pura ES6.</p>
+  </div>
 
 </body>
 </html>
