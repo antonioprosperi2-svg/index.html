@@ -1,67 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeeEngine JS — Motore di gioco 2D in JavaScript per Canvas</title>
+<meta name="description" content="BeeEngine JS è un motore di gioco 2D in JavaScript per HTML5 Canvas: camera, layer di disegno, particelle, collisioni e culling. Installa con npm.">
+<link rel="canonical" href="https://beeenginejs.com/">
+<meta property="og:title" content="BeeEngine JS — Motore di gioco 2D in JavaScript">
+<meta property="og:description" content="Motore 2D per HTML5 Canvas: camera, layer, particelle, collisioni. Disponibile su npm.">
+<meta property="og:url" content="https://beeenginejs.com/">
+<meta property="og:type" content="website">
 <style>
-    /* Sfondo scuro e moderno che non acceca */
-    body {
-      background-color: #121214;
-      color: #ffffff;
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
+:root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--txt:#e8eaf0;--mut:#9aa3b2;--acc:#f5b301;--acc2:#ffd34d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.2rem;color:var(--txt)}.logo span{color:var(--acc)}
+nav .links a{margin-left:20px;color:var(--mut);font-size:.95rem}
+.hero{padding:80px 0 60px;text-align:center}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin-bottom:18px}
+.hero h1 span{color:var(--acc)}
+.hero p{color:var(--mut);font-size:1.15rem;max-width:640px;margin:0 auto 32px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 24px;border-radius:10px;font-weight:600}
+.btn.p{background:var(--acc);color:#111}.btn.p:hover{background:var(--acc2);text-decoration:none}
+.btn.s{border:1px solid var(--line);color:var(--txt)}.btn.s:hover{border-color:var(--acc);text-decoration:none}
+pre{background:#0a0c10;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:.92rem;text-align:left}
+code{font-family:ui-monospace,Consolas,monospace;color:#ffe08a}
+.install{max-width:420px;margin:36px auto 0}
+section{padding:50px 0}
+h2{font-size:1.7rem;margin-bottom:24px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.card h3{font-size:1.05rem;margin-bottom:6px}.card p{color:var(--mut);font-size:.95rem}
+.ico{font-size:1.6rem;margin-bottom:8px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-size:.9rem;text-align:center}
+@media(max-width:560px){nav .links a:not(:last-child){display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <a class="logo" href="./">🐝 Bee<span>Engine</span> JS</a>
+  <div class="links">
+    <a href="https://beeenginejs.com/">Documentazione</a>
+    <a href="https://www.npmjs.com/package/beeengine">npm</a>
+    <a href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">GitHub</a>
+  </div>
+</nav></div></header>
 
-    /* Contenitore centrale */
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background-color: #1e1e24;
-      padding: 30px;
-      border-radius: 12px;
-      border: 1px solid #33333e;
-    }
+<main>
+<div class="hero"><div class="wrap">
+  <h1>Motore di gioco <span>2D</span> in JavaScript</h1>
+  <p>BeeEngine JS è un motore leggero per giochi HTML5 su Canvas: camera, layer di disegno, particelle, collisioni e culling, senza dipendenze.</p>
+  <div class="btns">
+    <a class="btn p" href="https://beeenginejs.com/">Leggi la documentazione</a>
+    <a class="btn s" href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">Codice su GitHub</a>
+  </div>
+  <div class="install"><pre><code>npm install beeengine</code></pre></div>
+</div></div>
 
-    /* Immagine adattabile */
-    .container img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
+<section><div class="wrap">
+  <h2>Cosa trovi nel motore</h2>
+  <div class="grid">
+    <div class="card"><div class="ico">🎥</div><h3>Camera 2D</h3><p>Follow del giocatore, scroll, limiti del mondo e conversione screenToWorld / worldToScreen.</p></div>
+    <div class="card"><div class="ico">🗂️</div><h3>Layer di disegno</h3><p>Ordine di rendering per layer, y-sort per i giochi top-down e UI sempre sopra la scena.</p></div>
+    <div class="card"><div class="ico">✨</div><h3>Particelle</h3><p>Burst di particelle con pool di oggetti senza allocazioni e culling sull'area visibile.</p></div>
+    <div class="card"><div class="ico">💥</div><h3>Collisioni e culling</h3><p>Disegna e controlla solo ciò che serve, per restare fluido anche su mobile.</p></div>
+  </div>
+</div></section>
 
-    /* Titoli e Testi */
-    h1 {
-      font-size: 24px;
-      color: #00e676;
-      margin-bottom: 10px;
-    }
+<section><div class="wrap">
+  <h2>Inizia in pochi secondi</h2>
+  <pre><code>import * as Bee from 'beeengine';
 
-    p {
-      font-size: 16px;
-      color: #cccccc;
-      line-height: 1.5;
-    }
+// Crea il gioco e aggiungi le tue entità.
+// Esempi completi e API nella documentazione:
+// https://beeenginejs.com/</code></pre>
+</div></section>
+</main>
 
-    /* Menu di Pulsanti */
-    .menu {
-      margin-top: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .btn {
-      display: block;
-      padding: 12px 20px;
-      background-color: #00e676;
-      color: #000000;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      color: #00e676;
-      border: 2px solid #00e676;
-    }
-  </style>
+<footer><div class="wrap">
+  BeeEngine JS · <a href="https://beeenginejs.com/">beeenginejs.com</a> · <a href="https://www.npmjs.com/package/beeengine">npm</a> · <a href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">GitHub</a>
+</div></footer>
+</body>
+</html>
