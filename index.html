@@ -1,89 +1,819 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BeeEngine JS — Motore di gioco 2D in JavaScript per Canvas</title>
-<meta name="description" content="BeeEngine JS è un motore di gioco 2D in JavaScript per HTML5 Canvas: camera, layer di disegno, particelle, collisioni e culling. Installa con npm.">
-<link rel="canonical" href="https://beeenginejs.com/">
-<meta property="og:title" content="BeeEngine JS — Motore di gioco 2D in JavaScript">
-<meta property="og:description" content="Motore 2D per HTML5 Canvas: camera, layer, particelle, collisioni. Disponibile su npm.">
-<meta property="og:url" content="https://beeenginejs.com/">
-<meta property="og:type" content="website">
-<style>
-:root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--txt:#e8eaf0;--mut:#9aa3b2;--acc:#f5b301;--acc2:#ffd34d}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
-a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-header{border-bottom:1px solid var(--line)}
-nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{font-weight:800;font-size:1.2rem;color:var(--txt)}.logo span{color:var(--acc)}
-nav .links a{margin-left:20px;color:var(--mut);font-size:.95rem}
-.hero{padding:80px 0 60px;text-align:center}
-.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin-bottom:18px}
-.hero h1 span{color:var(--acc)}
-.hero p{color:var(--mut);font-size:1.15rem;max-width:640px;margin:0 auto 32px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;padding:12px 24px;border-radius:10px;font-weight:600}
-.btn.p{background:var(--acc);color:#111}.btn.p:hover{background:var(--acc2);text-decoration:none}
-.btn.s{border:1px solid var(--line);color:var(--txt)}.btn.s:hover{border-color:var(--acc);text-decoration:none}
-pre{background:#0a0c10;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:.92rem;text-align:left}
-code{font-family:ui-monospace,Consolas,monospace;color:#ffe08a}
-.install{max-width:420px;margin:36px auto 0}
-section{padding:50px 0}
-h2{font-size:1.7rem;margin-bottom:24px;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
-.card h3{font-size:1.05rem;margin-bottom:6px}.card p{color:var(--mut);font-size:.95rem}
-.ico{font-size:1.6rem;margin-bottom:8px}
-footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-size:.9rem;text-align:center}
-@media(max-width:560px){nav .links a:not(:last-child){display:none}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BeeEngine JS — Motore di gioco 2D in JavaScript per Canvas</title>
+  <meta name="description"
+    content="BeeEngine JS è un motore di gioco 2D in JavaScript per HTML5 Canvas: camera, layer di disegno, particelle, collisioni e culling. Installa con npm.">
+  <link rel="canonical" href="https://beeenginejs.com/">
+  <meta property="og:title" content="BeeEngine JS — Motore di gioco 2D in JavaScript">
+  <meta property="og:description"
+    content="Motore 2D per HTML5 Canvas: camera, layer, particelle, collisioni. Disponibile su npm.">
+  <meta property="og:url" content="https://beeenginejs.com/">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #181b22;
+      --line: #2a2f3a;
+      --txt: #e8eaf0;
+      --mut: #9aa3b2;
+      --acc: #f5b301;
+      --acc2: #ffd34d
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.6
+    }
+
+    a {
+      color: var(--acc2);
+      text-decoration: none
+    }
+
+    a:hover {
+      text-decoration: underline
+    }
+
+    .wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 20px
+    }
+
+    header {
+      border-bottom: 1px solid var(--line)
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--txt)
+    }
+
+    .logo span {
+      color: var(--acc)
+    }
+
+    nav .links a {
+      margin-left: 20px;
+      color: var(--mut);
+      font-size: .95rem
+    }
+
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 18px
+    }
+
+    .hero h1 span {
+      color: var(--acc)
+    }
+
+    .hero p {
+      color: var(--mut);
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 32px
+    }
+
+    .btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600
+    }
+
+    .btn.p {
+      background: var(--acc);
+      color: #111
+    }
+
+    .btn.p:hover {
+      background: var(--acc2);
+      text-decoration: none
+    }
+
+    .btn.s {
+      border: 1px solid var(--line);
+      color: var(--txt)
+    }
+
+    .btn.s:hover {
+      border-color: var(--acc);
+      text-decoration: none
+    }
+
+    pre {
+      background: #0a0c10;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-size: .92rem;
+      text-align: left
+    }
+
+    code {
+      font-family: ui-monospace, Consolas, monospace;
+      color: #ffe08a
+    }
+
+    .install {
+      max-width: 420px;
+      margin: 36px auto 0
+    }
+
+    section {
+      padding: 50px 0
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      margin-bottom: 24px;
+      text-align: center
+    }
+
+    h3.cat {
+      font-size: 1.1rem;
+      color: var(--acc);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: .06em
+    }
+
+    .salti {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 18px auto 4px;
+      max-width: 760px
+    }
+
+    .salti a {
+      border: 1px solid var(--line);
+      color: var(--mut);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: .85rem;
+      background: var(--card)
+    }
+
+    .salti a:hover {
+      border-color: var(--acc);
+      color: var(--txt);
+      text-decoration: none
+    }
+
+    .categoria {
+      scroll-margin-top: 16px
+    }
+
+    .cat-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 32px 0 12px
+    }
+
+    .cat-head code {
+      color: var(--mut);
+      font-size: .82rem
+    }
+
+    .cat-note {
+      color: var(--mut);
+      font-size: .92rem;
+      margin: -4px 0 12px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px
+    }
+
+    .card {
+      display: block;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      color: inherit;
+      transition: border-color .15s, transform .15s
+    }
+
+    a.card:hover {
+      border-color: var(--acc);
+      transform: translateY(-2px);
+      text-decoration: none
+    }
+
+    a.card:focus-visible {
+      outline: 2px solid var(--acc);
+      outline-offset: 2px
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      color: var(--txt)
+    }
+
+    .card p {
+      color: var(--mut);
+      font-size: .95rem
+    }
+
+    .ico {
+      font-size: 1.6rem;
+      margin-bottom: 8px
+    }
+
+    .cerca {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto 10px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--txt);
+      font-size: 1rem
+    }
+
+    .cerca:focus {
+      outline: none;
+      border-color: var(--acc)
+    }
+
+    .nascosto {
+      display: none
+    }
+
+    .dev-lead {
+      color: var(--mut);
+      text-align: center;
+      max-width: 640px;
+      margin: -8px auto 24px
+    }
+
+    .nota {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px
+    }
+
+    .nota h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px
+    }
+
+    .nota p {
+      color: var(--mut);
+      font-size: .95rem
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 30px 0;
+      color: var(--mut);
+      font-size: .9rem;
+      text-align: center
+    }
+
+    @media(max-width:560px) {
+      nav .links a:not(:last-child) {
+        display: none
+      }
+    }
+  </style>
 </head>
+
+<div align="center">
+  <img src="https://beeenginejs.com/wp-content/uploads/2026/10/bee-engine-logo-animated.gif"
+    alt="BeeEngine Official Logo" width="300" />
+  <p><i>Logo Ufficiale BeeEngine</i></p>
+</div>
+
 <body>
-<header><div class="wrap"><nav>
-  <a class="logo" href="./">🐝 Bee<span>Engine</span> JS</a>
-  <div class="links">
-    <a href="https://beeenginejs.com/">Documentazione</a>
-    <a href="https://www.npmjs.com/package/beeengine">npm</a>
-    <a href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">GitHub</a>
-  </div>
-</nav></div></header>
+  <header>
+    <div class="wrap">
+      <nav>
+        <a class="logo" href="https://antonioprosperi2-svg.github.io/BeeEngine-V2.5.0/">🐝 Bee<span>Engine</span> JS
+          Demo</a>
+        <div class="links">
+          <a href="#classi">Documentazione</a>
+          <a href="https://www.npmjs.com/package/beeengine">npm</a>
+          <a href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">GitHub</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-<main>
-<div class="hero"><div class="wrap">
-  <h1>Motore di gioco <span>2D</span> in JavaScript</h1>
-  <p>BeeEngine JS è un motore leggero per giochi HTML5 su Canvas: camera, layer di disegno, particelle, collisioni e culling, senza dipendenze.</p>
-  <div class="btns">
-    <a class="btn p" href="https://beeenginejs.com/">Leggi la documentazione</a>
-    <a class="btn s" href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">Codice su GitHub</a>
-  </div>
-  <div class="install"><pre><code>npm install beeengine</code></pre></div>
-</div></div>
+  <main>
+    <div class="hero">
+      <div class="wrap">
+        <h1>Motore di gioco <span>2D</span> in JavaScript</h1>
+        <p>BeeEngine JS è un motore leggero per giochi HTML5 su Canvas: camera, layer di disegno, particelle, collisioni
+          e culling, senza dipendenze.
+          ⚠️ **Nota:** La documentazione è attualmente in fase di sviluppo e aggiornamento
+          continuo.</p>
+        <div class="btns">
+          <a class="btn p" href="#classi">Leggi la documentazione</a>
+          <a class="btn s" href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">Codice su GitHub</a>
+        </div>
+        <div class="install">
+          <pre><code>npm install beeengine</code></pre>
+        </div>
+      </div>
+    </div>
 
-<section><div class="wrap">
-  <h2>Cosa trovi nel motore</h2>
-  <div class="grid">
-    <div class="card"><div class="ico">🎥</div><h3>Camera 2D</h3><p>Follow del giocatore, scroll, limiti del mondo e conversione screenToWorld / worldToScreen.</p></div>
-    <div class="card"><div class="ico">🗂️</div><h3>Layer di disegno</h3><p>Ordine di rendering per layer, y-sort per i giochi top-down e UI sempre sopra la scena.</p></div>
-    <div class="card"><div class="ico">✨</div><h3>Particelle</h3><p>Burst di particelle con pool di oggetti senza allocazioni e culling sull'area visibile.</p></div>
-    <div class="card"><div class="ico">💥</div><h3>Collisioni e culling</h3><p>Disegna e controlla solo ciò che serve, per restare fluido anche su mobile.</p></div>
-  </div>
-</div></section>
+    <section id="classi">
+      <div class="wrap">
+        <h2>Cosa trovi nel motore</h2>
+        <input class="cerca" id="cerca" type="search" placeholder="Cerca una classe (es. Tween, Camera, Inventory...)"
+          aria-label="Cerca una classe">
+        <nav class="salti" aria-label="Categorie del motore">
+          <a href="#cat-audio">Audio</a>
+          <a href="#cat-core">Core</a>
+          <a href="#cat-gameplay">Gameplay</a>
+          <a href="#cat-grafica">Grafica</a>
+          <a href="#cat-input">Input</a>
+          <a href="#cat-ui">UI</a>
+          <a href="#cat-fisica">Fisica</a>
+          <a href="#cat-plugin">Plugin</a>
+          <a href="#cat-debug">Debug</a>
+        </nav>
 
-<section><div class="wrap">
-  <h2>Inizia in pochi secondi</h2>
-  <pre><code>import * as Bee from 'beeengine';
+        <!--
+          Per aggiungere una classe, copia un <a class="card"> e cambia href.
+          Pagine già online: docs/nomeclasse.html
+          Se la doc sta su un altro URL, sostituisci solo l'href.
+        -->
+
+        <!-- ============ CATEGORIA: AUDIO ============ -->
+        <div class="categoria" id="cat-audio">
+          <div class="cat-head">
+            <h3 class="cat">Audio</h3>
+            <code>audio/</code>
+          </div>
+          <div class="grid">
+            <a class="card" href="docs/beeaudiomixer.html">
+              <div class="ico">🔊</div>
+              <h3>BeeAudioMixer</h3>
+              <p>Bus per musica ed effetti, con fade, duck e pan 2D rispetto alla camera.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- ============ CATEGORIA: CORE ============ -->
+        <div class="categoria" id="cat-core">
+          <div class="cat-head">
+            <h3 class="cat">Core</h3>
+            <code>core/</code>
+          </div>
+          <div class="grid">
+            <a class="card" href="https://beeenginejs.com/documentazione-beeengine/">
+              <div class="ico">🐝</div>
+              <h3>BeeEngine</h3>
+              <p>Facade e core loop src/core/BeeEngine.html start stop pause, scene vs addEntity,
+                tween/timer/prefab/pathfinder.</p>
+            </a>
+
+            <!-- COPIA QUESTA RIGA PER AGGIUNGERE UNA CARD -->
+            <a class="card" href="https://beeenginejs.com/beeentity-classe-madre-base-per-entita-di-gioco-beeengine/">
+              <div class="ico">🕹️</div>
+              <h3>BeeEntity</h3>
+              <p>Nodo dello scene graph con coordinate, figli, moto e un collider rettangolare.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beetransform-guida-alla-trasformata-2d-affine-trs-e-cache/">
+              <div class="ico">📐</div>
+              <h3>BeeTransform</h3>
+              <p>Posizione, rotazione e scala locali, composte col genitore per le coordinate mondo.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beetime-documentazione-tecnica-orologio-loop/">
+              <div class="ico">⌛</div>
+              <h3>BeeTime</h3>
+              <p>Delta del frame, scala del tempo e pausa, letti da un punto solo.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beetimer-gestione-tempo-e-cooldown-in-beeengine/">
+              <div class="ico">⏱️</div>
+              <h3>BeeTimer</h3>
+              <p>Conta i secondi e chiama una funzione una volta, oppure a ogni giro.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beescenemanager-gestione-scene/">
+              <div class="ico">🎬</div>
+              <h3>BeeSceneManager</h3>
+              <p>Registra le scene, passa da una all'altra e aggiorna le entità di quella attiva.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beeassetmanager-caricare-immagini-e-audio-in-javascript/">
+              <div class="ico">📦</div>
+              <h3>BeeAssetManager</h3>
+              <p>Carica immagini e suoni per nome e può riprodurre una copia del suono.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beesave-persistenza-dto-per-giochi-javascript-beeengine/">
+              <div class="ico">💾</div>
+              <h3>BeeSave</h3>
+              <p>Scrive e rilegge JSON in localStorage con il prefisso BeeSave:.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beegrid-griglia-logica-2d-documentazione-beeengine/">
+              <div class="ico">🔲</div>
+              <h3>BeeGrid</h3>
+              <p>Griglia di celle con lettura, scrittura e disegno delegato a una funzione.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/pathfinder-pathfinding-a-e-ricerca-percorsi/">
+              <div class="ico">🧭</div>
+              <h3>BeePathfinder</h3>
+              <p>Cerca un percorso su una griglia di celle e lo restituisce un passo alla volta.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/prefab-gestione-e-spawn-di-entita-in-beeengine/">
+              <div class="ico">🧬</div>
+              <h3>BeePrefab</h3>
+              <p>Modello di entità già configurato: lo cloni in scena senza ricopiare il costruttore.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/modulo-di-interpolazione-beetween/">
+              <div class="ico">📈</div>
+              <h3>BeeTween</h3>
+              <p>Porta un valore da un numero a un altro in un tempo dato: posizione, alpha, scala.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/beetimeline-tween-sequenze-javascript/">
+              <div class="ico">🎞️</div>
+              <h3>BeeTimeline</h3>
+              <p>Mette in fila tween, attese e callback. Una sequenza resta un oggetto solo.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/object-pooling-javascript-guida-a-beepool-beeengine-docs/">
+              <div class="ico">♻️</div>
+              <h3>BeePool</h3>
+              <p>Scaffale di oggetti già creati. Li prendi, li usi e li restituisci.</p>
+            </a>
+          </div>
+        </div>
+        <!-- ============ CATEGORIA: DEBUG ============ -->
+        <div class="categoria" id="cat-debug">
+          <div class="cat-head">
+            <h3 class="cat">Debug</h3>
+            <code>debug/</code>
+          </div>
+          <div class="grid">
+            <a class="card" href="https://beeenginejs.com/debug-canvas-js-overlay-hitbox-e-freeze-con-tasti-f2-f4/">
+              <div class="ico">🐞</div>
+              <h3>BeeLadybug</h3>
+              <p>Debug Canvas JS: Overlay, Hitbox e Freeze con Tasti F2-F4.</p>
+            </a>
+          </div>
+        </div>
+        <!-- ============ CATEGORIA: GAMEPLAY ============ -->
+        <div class="categoria" id="cat-gameplay">
+          <div class="cat-head">
+            <h3 class="cat">Gameplay</h3>
+            <code>gameplay/</code>
+          </div>
+          <div class="grid">
+            </li>
+
+            <a class="card" href="https://beeenginejs.com/player-controller-2d-in-javascript-salto-attacco-e-stati/">
+              <div class="ico">🏃</div>
+              <h3>BeePlayer</h3>
+              <p>Cammina e salta in mode platformer, oppure si muove libero. Conta punti e vite.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/logica-di-pattugliamento-asse-x/">
+              <div class="ico">👾</div>
+              <h3>BeeEnemy</h3>
+              <p>Pattuglia in orizzontale con velocita per dt e inverte il verso ai bordi.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/ai-nemico-canvas-2d-bounds-timer-sparo-e-proiettili-js/">
+              <div class="ico">🔫</div>
+              <h3>BeeEnemyShooter</h3>
+              <p>Nemico che rimbalza sui bordi del canvas e spara un proiettile.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/gestione-solidi-2d-sprite-statici-e-collisioni-canvas-js/">
+              <div class="ico">🟫</div>
+              <h3>BeePlatform</h3>
+              <p>Piattaforma disegnata con un colore o con la texture indicata.</p>
+            </a>
+            <a class="card"
+              href="https://beeenginejs.com/gestione-collectible-canvas-js-pickups-physics-e-world-space/">
+              <div class="ico">🍯</div>
+              <h3>BeeCollectible</h3>
+              <p>Cade di velocita pixel a ogni update e, sotto il bordo, torna in cima.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/menu-di-gioco-canvas-js-voci-input-e-transizioni/">
+              <div class="ico">🏠</div>
+              <h3>BeeMenuScene</h3>
+              <p>Menu disegnato sul canvas: Invio, Spazio o click passano alla scena game.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- ============ CATEGORIA: GRAFICA ============ -->
+        <div class="categoria" id="cat-grafica">
+          <div class="cat-head">
+            <h3 class="cat">Grafica</h3>
+            <code>graphics/</code>
+          </div>
+          <div class="grid">
+            <a class="card" href="https://beeenginejs.com/animazione-spritesheet-in-javascript-play-update-e-draw/">
+              <div class="ico">🎭</div>
+              <h3>BeeAnimatedSprite</h3>
+              <p>Clip da spritesheet: play / update / draw, finished per l’animator.</p>
+            </a>
+
+            <a class="card" href="https://beeenginejs.com/layer-di-disegno-in-javascript-y-sort-e-ui-su-canvas/">
+              <div class="ico">🗂️</div>
+              <h3>BeeLayer</h3>
+              <p>Ordine di disegno, y-sort per il top-down e un layer di UI fermo sopra la scena.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/camera-2d-in-javascript-follow-scroll-e-screentoworld/">
+              <div class="ico">🎥</div>
+              <h3>BeeCamera</h3>
+              <p>Segue un bersaglio, trasla il canvas e dice se un rettangolo è inquadrato.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/state-machine-per-animazioni-in-javascript-transizioni-2d/">
+              <div class="ico">🎬</div>
+              <h3>BeeAnimator</h3>
+              <p>Stati e clip su uno sprite: idle, corsa, salto, e il passaggio dall'uno all'altro.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/sprite-sheet-in-javascript-animazione-a-frame-su-canvas/">
+              <div class="ico">🖼️</div>
+              <h3>BeeSprite</h3>
+              <p>Avanza i fotogrammi di un foglio sprite e disegna il riquadro corrente.</p>
+            </a>
+            <a class="card" href="docs/beetilemap.html">
+              <div class="ico">🗺️</div>
+              <h3>BeeTilemap</h3>
+              <p>Disegna una mappa a tessere e dice quali celle sono solide.</p>
+            </a>
+            <a class="card" href="docs/beetext.html">
+              <div class="ico">🔤</div>
+              <h3>BeeText</h3>
+              <p>Disegna una stringa sul canvas e una barra con titolo, punteggio e vite.</p>
+            </a>
+            <a class="card" href="https://beeenginejs.com/sistema-di-particelle-in-javascript-burst-pool-e-culling/">
+              <div class="ico">✨</div>
+              <h3>BeeParticleSystem</h3>
+              <p>Emette cerchi colorati che si spostano e spariscono quando la vita arriva a zero.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- ============ CATEGORIA: INPUT ============ -->
+        <div class="categoria" id="cat-input">
+          <div class="cat-head">
+            <h3 class="cat">Input</h3>
+            <code>input/</code>
+          </div>
+          <div class="grid">
+            <a class="card" href="docs/beeinput.html">
+              <div class="ico">⌨️</div>
+              <h3>BeeInput</h3>
+              <p>Tastiera e mouse: tenuto premuto, oppure solo per il frame corrente.</p>
+            </a>
+            <a class="card" href="docs/beejoystick.html">
+              <div class="ico">🕹️</div>
+              <h3>BeeJoystick</h3>
+              <p>Stick virtuale: direzione e intensità, da leggere come vettore o da scrivere sui tasti.</p>
+            </a>
+            <a class="card" href="docs/beetouchcontrols.html">
+              <div class="ico">👆</div>
+              <h3>BeeTouchControls</h3>
+              <p>Pulsanti sul canvas che scrivono le frecce e lo spazio in BeeInput.</p>
+            </a>
+            <a class="card" href="docs/beebutton.html">
+              <div class="ico">🔘</div>
+              <h3>BeeButton</h3>
+              <p>Pulsante di gioco sul canvas, con hover, pressione e una funzione onClick.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- ============ CATEGORIA: UI ============ -->
+        <div class="categoria" id="cat-ui">
+          <div class="cat-head">
+            <h3 class="cat">UI</h3>
+            <code>ui/</code>
+          </div>
+          <div class="grid">
+            <a class="card" href="docs/beeuicontrol.html">
+              <div class="ico">🧩</div>
+              <h3>BeeUI Control</h3>
+              <p>Base di un controllo: rettangolo, hover, focus e l'evento di attivazione.</p>
+            </a>
+            <a class="card" href="docs/beeuipanel.html">
+              <div class="ico">🪟</div>
+              <h3>BeeUI Panel</h3>
+              <p>Contenitore. I figli restano dentro il suo rettangolo.</p>
+            </a>
+            <a class="card" href="docs/beeuistack.html">
+              <div class="ico">📚</div>
+              <h3>BeeUI Stack</h3>
+              <p>Impila i figli in verticale o in orizzontale e distribuisce lo spazio.</p>
+            </a>
+            <a class="card" href="docs/beeuilabel.html">
+              <div class="ico">🏷️</div>
+              <h3>BeeUI Label</h3>
+              <p>Testo di interfaccia, allineato nel rettangolo del controllo.</p>
+            </a>
+            <a class="card" href="docs/beeuibutton.html">
+              <div class="ico">🔳</div>
+              <h3>BeeUI Button</h3>
+              <p>Pulsante nel layout della UI. Sta nel pannello, non sparso sul mondo.</p>
+            </a>
+            <a class="card" href="docs/beeuinineslice.html">
+              <div class="ico">🖼️</div>
+              <h3>BeeUI NineSlice</h3>
+              <p>Bordo a nove parti: il centro si allarga, gli angoli restano nitidi.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- ============ CATEGORIA: FISICA ============ -->
+        <div class="categoria" id="cat-fisica">
+          <div class="cat-head">
+            <h3 class="cat">Fisica</h3>
+            <code>physics/</code>
+          </div>
+          <div class="grid">
+            <a class="card" href="docs/beephysicsworld.html">
+              <div class="ico">🌍</div>
+              <h3>BeePhysicsWorld</h3>
+              <p>Un passo di simulazione: velocità, gravità e i contatti di quel frame.</p>
+            </a>
+            <a class="card" href="docs/beerigidbody.html">
+              <div class="ico">🧱</div>
+              <h3>BeeRigidBody</h3>
+              <p>Massa, velocità e il tipo di risposta: fermo, oppure si muove.</p>
+            </a>
+            <a class="card" href="docs/beespatialhash.html">
+              <div class="ico">🧮</div>
+              <h3>BeeSpatialHash</h3>
+              <p>Celle che tengono solo i corpi vicini, così il test AABB non gira su tutta la scena.</p>
+            </a>
+            <a class="card" href="docs/beecollisionsystem.html">
+              <div class="ico">💥</div>
+              <h3>BeeCollisionSystem</h3>
+              <p>Gruppi AABB e regole solid o overlap, risolte nell'ordine in cui le registri.</p>
+            </a>
+            <a class="card" href="docs/beerectcollider.html">
+              <div class="ico">⬜</div>
+              <h3>BeeRectCollider</h3>
+              <p>Hitbox rettangolare agganciata a un'entità, con test di overlap e di punto.</p>
+            </a>
+            <a class="card" href="docs/beebullet.html">
+              <div class="ico">🔸</div>
+              <h3>BeeBullet</h3>
+              <p>Proiettile che si sposta di vx e vy per dt e si distrugge fuori dal rettangolo di gioco.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- ============ CATEGORIA: PLUGINS ============ -->
+        <div class="categoria" id="cat-plugin">
+          <div class="cat-head">
+            <h3 class="cat">Plugin</h3>
+            <code>plugins/</code>
+          </div>
+          <p class="cat-note">Il motore non importa questi file. Li carichi dal gioco, solo se ti servono.</p>
+          <div class="grid">
+            <a class="card" href="docs/beeplugin.html">
+              <div class="ico">🔌</div>
+              <h3>Contratto plugin</h3>
+              <p>La forma che un plugin deve rispettare per agganciarsi al gioco senza entrare nel core.</p>
+            </a>
+            <a class="card" href="docs/beelocale.html">
+              <div class="ico">🌐</div>
+              <h3>BeeLocale</h3>
+              <p>Stringhe per lingua. Il testo in gioco chiede una chiave, non una frase fissa.</p>
+            </a>
+            <a class="card" href="docs/beeinventory.html">
+              <div class="ico">🎒</div>
+              <h3>BeeInventory</h3>
+              <p>Slot, aggiunta e rimozione di oggetti. Resta fuori dal core: non ogni gioco ha un inventario.</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="note">
+      <div class="wrap">
+        <h2>Da sviluppatore a sviluppatore</h2>
+        <p class="dev-lead">Cose che la firma del metodo non dice, e che si scoprono al secondo pomeriggio.</p>
+        <div class="grid">
+          <article class="nota">
+            <h3>endFrame per ultimo</h3>
+            <p><code>pressed</code> e <code>mouse.wasPressed</code> restano veri fino a <code>endFrame</code>. Leggi
+              l'input nell'update della scena e chiama <code>endFrame</code> dopo. Se lo chiami prima, Space risulta già
+              consumato e il salto parte a caso.</p>
+          </article>
+          <article class="nota">
+            <h3>Due orologi nello stesso gioco</h3>
+            <p>BeePlayer e BeeNemico moltiplicano per <code>dt</code>: i numeri sono pixel al secondo. BeeCollectible
+              somma <code>velocita</code> a <code>y</code> e ignora <code>dt</code>, quindi a 30 fps scende più piano
+              che a 60. Un'entità nuova va scritta con la stessa convenzione del resto della scena.</p>
+          </article>
+          <article class="nota">
+            <h3>L'ordine delle regole è il gioco</h3>
+            <p>BeeCollisionSystem risolve prima i contatti solidi, poi gli overlap, nell'ordine in cui hai chiamato
+              <code>add</code>. Se la moneta si raccoglie solo a mezz'aria, la regola di overlap sta nel punto sbagliato
+              di quella lista.
+            </p>
+          </article>
+          <article class="nota">
+            <h3>Il pool si riempie al load</h3>
+            <p>BeePool e i burst di particelle rendono se gli oggetti esistono già. Creare lo scaffale dentro il primo
+              <code>emit</code> sposta le allocazioni nel frame in cui esplode qualcosa: è lì che il gioco si blocca un
+              attimo sul telefono.
+            </p>
+          </article>
+          <article class="nota">
+            <h3>La UI sta su un layer fermo</h3>
+            <p>Panel, stack, label e nine-slice vanno su un layer che non segue BeeCamera. Sul layer del mondo il menu
+              scorre insieme al giocatore, e il pulsante esce dall'inquadratura appena cammini.</p>
+          </article>
+          <article class="nota">
+            <h3>Ladybug spento prima del deploy</h3>
+            <p>L'overlay disegna le hitbox a ogni frame. In locale è il modo più rapido per vedere un AABB spostato di
+              otto pixel. Sulla build che metti online va disattivato: quei rettangoli li vede il giocatore, e li paghi
+              comunque.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>Inizia in pochi secondi</h2>
+        <pre><code>import * as Bee from 'beeengine';
 
 // Crea il gioco e aggiungi le tue entità.
 // Esempi completi e API nella documentazione:
 // https://beeenginejs.com/</code></pre>
-</div></section>
-</main>
+      </div>
+    </section>
+  </main>
 
-<footer><div class="wrap">
-  BeeEngine JS · <a href="https://beeenginejs.com/">beeenginejs.com</a> · <a href="https://www.npmjs.com/package/beeengine">npm</a> · <a href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">GitHub</a>
-</div></footer>
+  <footer>
+    <div class="wrap">
+      BeeEngine JS · <a href="https://beeenginejs.com/">beeenginejs.com</a> · <a
+        href="https://www.npmjs.com/package/beeengine">npm</a> · <a
+        href="https://github.com/antonioprosperi2-svg/BeeEngine-V2.5.0">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    // Ricerca: nasconde le card che non corrispondono e le categorie vuote
+    document.getElementById('cerca').addEventListener('input', function () {
+      var q = this.value.trim().toLowerCase();
+      document.querySelectorAll('.categoria').forEach(function (cat) {
+        var visibili = 0;
+        cat.querySelectorAll('.card').forEach(function (c) {
+          var ok = c.textContent.toLowerCase().indexOf(q) !== -1;
+          c.classList.toggle('nascosto', !ok);
+          if (ok) visibili++;
+        });
+        cat.classList.toggle('nascosto', visibili === 0);
+      });
+    });
+  </script>
 </body>
+
 </html>
